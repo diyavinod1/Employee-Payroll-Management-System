@@ -96,7 +96,6 @@ public class EmployeePayrollSystem {
             System.out.println("Employee not found!");
     }
 
-    // Utility methods
     private int getInt(String msg) {
         System.out.print(msg);
         while (!scanner.hasNextInt()) {
