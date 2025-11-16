@@ -153,13 +153,19 @@ Perfect for demonstrating backend logic, file handling, inheritance, and data st
 
 # 👥✨ Team Members
 
-<i> “Individually we are one drop. Together, we are an ocean.” </i>
+<i> “Great code is born when great minds collide… and debug together.” </i>
 
 🚀 The Crew Behind the Payroll System
 
-- Aishwarya S  (Team Lead)
-- Aswanth R
-- Diya Vinod
-- Maheswari M
-- Naren J
-- Sarvesh S
+| Avatar | Name            | Superpower                                                    | Role in Project / Files Worked On |
+|--------|-----------------|---------------------------------------------------------------|-----------------------------------|
+| 🧠     | **Aishwarya S**   | Writes Java so clean it could be framed in a museum 😎        | `Employee.java`, `index.html`     |
+| ⚙️     | **Aswanth R**     | Protects the project with custom exceptions like a guardian 🛡️     | `InvalidSalaryException.java`             |
+| 🛡️     | **Diya Vinod**     | Turns logic into a smooth UI + ties the whole project together 🌟 | `EmployeePayrollSystem.java`, `index.html`     |
+| 🧮     | **Maheswari M**   | Calculates part-time salaries with mathematical precision 📊   | `PartTimeEmployee.java`           |
+| 💼     | **Naren**         | Handles full-time bonuses like a real HR pro 💰                | `FullTimeEmployee.java`           |
+| 🎨     | **Sarvesh S**    | Can serialize data faster than Java’s ObjectOutputStream ⚡ | `PayrollManager.java` |
+
+
+
+
