@@ -159,12 +159,12 @@ Perfect for demonstrating backend logic, file handling, inheritance, and data st
 
 | Avatar | Name            | Superpower                                                    | Role in Project / Files Worked On |
 |--------|-----------------|---------------------------------------------------------------|-----------------------------------|
-| 🧠     | **Aishwarya S**   | Writes Java so clean it could be framed in a museum 😎        | `Employee.java`, `index.html`     |
+| 🧠     | **Aishwarya S**   | Masters both UI and serialization — dual-wielding frontend & backend 😎        | `Employee.java`, `index.html`     |
 | ⚙️     | **Aswanth R**     | Protects the project with custom exceptions like a guardian 🛡️     | `InvalidSalaryException.java`             |
-| 🛡️     | **Diya Vinod**     | Turns logic into a smooth UI + ties the whole project together 🌟 | `EmployeePayrollSystem.java`, `index.html`     |
-| 🧮     | **Maheswari M**   | Calculates part-time salaries with mathematical precision 📊   | `PartTimeEmployee.java`           |
-| 💼     | **Naren**         | Handles full-time bonuses like a real HR pro 💰                | `FullTimeEmployee.java`           |
-| 🎨     | **Sarvesh S**    | Can serialize data faster than Java’s ObjectOutputStream ⚡ | `PayrollManager.java` |
+| 🛡️     | **Diya Vinod**     | Turns logic into clean UI & integrates the whole system beautifully 🌟 | `EmployeePayrollSystem.java`, `index.html`     |
+| 🧮     | **Maheswari M**   | Calculates part-time salaries with flawless precision 📊   | `PartTimeEmployee.java`           |
+| 💼     | **Naren J**         | Manages full-time payroll like a professional HR wizard 💰                | `FullTimeEmployee.java`           |
+| 🎨     | **Sarvesh S**    | Makes payroll logic run smoother than a well-oiled JVM ⚡ | `PayrollManager.java` |
 
 
 
