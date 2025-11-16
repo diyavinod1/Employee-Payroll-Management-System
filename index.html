@@ -1,1 +1,1687 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Payroll System</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Modern UI with gradient background and glassmorphism */
+        :root {
+            --primary: #4361ee;
+            --primary-dark: #3a56d4;
+            --secondary: #7209b7;
+            --success: #4cc9f0;
+            --danger: #f72585;
+            --warning: #f8961e;
+            --info: #4895ef;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --gray: #6c757d;
+            --gray-light: #e9ecef;
+            --white: #ffffff;
+            --shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
 
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: var(--dark);
+            padding: 20px;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Header */
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            color: white;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            box-shadow: var(--shadow);
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            font-weight: 700;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            font-weight: 300;
+        }
+
+        /* Dashboard */
+        .dashboard {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 25px;
+            margin-bottom: 25px;
+        }
+
+        @media (max-width: 992px) {
+            .dashboard {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Cards */
+        .card {
+            background: var(--white);
+            border-radius: 15px;
+            box-shadow: var(--shadow);
+            padding: 25px;
+            transition: var(--transition);
+            border: none;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+        }
+
+        .card h2 {
+            color: var(--primary);
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid var(--gray-light);
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .card h2 i {
+            color: var(--secondary);
+        }
+
+        /* Stats */
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 20px;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            color: white;
+            box-shadow: 0 5px 15px rgba(67, 97, 238, 0.3);
+            transition: var(--transition);
+        }
+
+        .stat-card:hover {
+            transform: scale(1.05);
+        }
+
+        .stat-value {
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        /* Quick Actions */
+        .quick-actions {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        /* Form Elements */
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid var(--gray-light);
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: var(--transition);
+            background: var(--white);
+        }
+
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
+        }
+
+        /* Buttons */
+        .btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            box-shadow: 0 4px 10px rgba(67, 97, 238, 0.3);
+        }
+
+        .btn:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(67, 97, 238, 0.4);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .btn-block {
+            display: block;
+            width: 100%;
+        }
+
+        .btn-secondary {
+            background: var(--gray);
+        }
+
+        .btn-secondary:hover {
+            background: #5a6268;
+        }
+
+        .btn-success {
+            background: var(--success);
+        }
+
+        .btn-success:hover {
+            background: #3aa8d8;
+        }
+
+        .btn-danger {
+            background: var(--danger);
+        }
+
+        .btn-danger:hover {
+            background: #e11570;
+        }
+
+        .btn-warning {
+            background: var(--warning);
+        }
+
+        .btn-warning:hover {
+            background: #e0861b;
+        }
+
+        /* Tabs */
+        .tabs {
+            display: flex;
+            margin-bottom: 25px;
+            background: var(--white);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            flex-wrap: wrap;
+        }
+
+        .tab {
+            flex: 1;
+            padding: 18px;
+            text-align: center;
+            cursor: pointer;
+            transition: var(--transition);
+            font-weight: 600;
+            min-width: 150px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .tab.active {
+            background: var(--primary);
+            color: white;
+        }
+
+        .tab:not(.active):hover {
+            background: var(--gray-light);
+        }
+
+        /* Tab Content */
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Employee List */
+        .employee-list {
+            max-height: 500px;
+            overflow-y: auto;
+            border-radius: 10px;
+            border: 1px solid var(--gray-light);
+        }
+
+        .employee-item {
+            padding: 20px;
+            border-bottom: 1px solid var(--gray-light);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: var(--transition);
+        }
+
+        .employee-item:hover {
+            background: var(--gray-light);
+        }
+
+        .employee-item:last-child {
+            border-bottom: none;
+        }
+
+        .employee-info h3 {
+            margin-bottom: 8px;
+            color: var(--dark);
+            font-weight: 600;
+        }
+
+        .employee-details {
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+
+        .employee-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        /* Alerts */
+        .alert {
+            padding: 15px 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            animation: slideIn 0.5s ease;
+        }
+
+        @keyframes slideIn {
+            from { transform: translateX(-20px); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        .alert-success {
+            background: #d4edda;
+            color: #155724;
+            border-left: 5px solid #28a745;
+        }
+
+        .alert-error {
+            background: #f8d7da;
+            color: #721c24;
+            border-left: 5px solid #dc3545;
+        }
+
+        /* Payslip Preview */
+        .payslip-preview {
+            background: var(--gray-light);
+            padding: 25px;
+            border-radius: 12px;
+            margin-top: 20px;
+            font-family: 'Courier New', monospace;
+            box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .payslip-header {
+            text-align: center;
+            margin-bottom: 25px;
+            border-bottom: 2px solid var(--primary);
+            padding-bottom: 15px;
+        }
+
+        .payslip-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            padding-bottom: 10px;
+            border-bottom: 1px dashed rgba(0, 0, 0, 0.1);
+        }
+
+        .payslip-total {
+            font-weight: bold;
+            border-top: 2px solid var(--primary);
+            padding-top: 15px;
+            margin-top: 15px;
+            font-size: 1.1rem;
+        }
+
+        /* Profile Section */
+        .profile-section {
+            margin-bottom: 25px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--gray-light);
+        }
+
+        .profile-header {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .profile-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+
+        /* Payment History */
+        .payment-history {
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .payment-record {
+            background: var(--white);
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+            border-left: 4px solid var(--success);
+        }
+
+        /* Hidden Elements */
+        .hidden {
+            display: none !important;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .tabs {
+                flex-direction: column;
+            }
+            
+            .tab {
+                min-width: 100%;
+            }
+            
+            .quick-actions {
+                grid-template-columns: 1fr;
+            }
+            
+            .employee-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .employee-actions {
+                width: 100%;
+                justify-content: flex-end;
+            }
+        }
+
+        /* Badge */
+        .badge {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .badge-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .badge-success {
+            background: var(--success);
+            color: white;
+        }
+
+        .badge-warning {
+            background: var(--warning);
+            color: white;
+        }
+
+        /* Icons */
+        .icon {
+            font-size: 1.2rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-money-check-alt"></i> Employee Payroll System</h1>
+            <p class="subtitle">Manage employees, calculate salaries, and generate payslips efficiently</p>
+        </header>
+        
+        <div class="dashboard">
+            <div class="card">
+                <h2><i class="fas fa-chart-line"></i> System Overview</h2>
+                <div class="stats">
+                    <div class="stat-card">
+                        <div class="stat-value" id="totalEmployees">0</div>
+                        <div class="stat-label">Total Employees</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="fullTimeEmployees">0</div>
+                        <div class="stat-label">Full-Time</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="partTimeEmployees">0</div>
+                        <div class="stat-label">Part-Time</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card">
+                <h2><i class="fas fa-bolt"></i> Quick Actions</h2>
+                <div class="quick-actions">
+                    <button class="btn btn-secondary" onclick="showTab('addEmployee', this)"><i class="fas fa-user-plus"></i> Add Employee</button>
+                    <button class="btn btn-secondary" onclick="showTab('viewEmployees', this)"><i class="fas fa-users"></i> View Employees</button>
+                    <button class="btn btn-secondary" onclick="showTab('calculateSalary', this)"><i class="fas fa-calculator"></i> Calculate Salary</button>
+                    <button class="btn btn-secondary" onclick="showTab('generatePayslip', this)"><i class="fas fa-file-invoice-dollar"></i> Generate Payslip</button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="tabs">
+            <div class="tab active" data-tab="addEmployee" onclick="showTab('addEmployee', this)"><i class="fas fa-user-plus"></i> Add Employee</div>
+            <div class="tab" data-tab="viewEmployees" onclick="showTab('viewEmployees', this)"><i class="fas fa-users"></i> View Employees</div>
+            <div class="tab" data-tab="employeeProfile" onclick="showTab('employeeProfile', this)"><i class="fas fa-id-card"></i> Employee Profile</div>
+            <div class="tab" data-tab="calculateSalary" onclick="showTab('calculateSalary', this)"><i class="fas fa-calculator"></i> Calculate Salary</div>
+            <div class="tab" data-tab="generatePayslip" onclick="showTab('generatePayslip', this)"><i class="fas fa-file-invoice-dollar"></i> Generate Payslip</div>
+            <div class="tab" data-tab="bankTransfer" onclick="showTab('bankTransfer', this)"><i class="fas fa-university"></i> Bank Transfer</div>
+            <div class="tab" data-tab="reports" onclick="showTab('reports', this)"><i class="fas fa-chart-bar"></i> Reports</div>
+        </div>
+        
+        <div id="alertContainer"></div>
+        
+        <!-- Add Employee Tab -->
+        <div class="tab-content active" id="addEmployee">
+            <div class="card">
+                <h2><i class="fas fa-user-plus"></i> Add New Employee</h2>
+                <form id="employeeForm">
+                    <div class="form-group">
+                        <label for="employeeId"><i class="fas fa-id-badge"></i> Employee ID</label>
+                        <input type="number" id="employeeId" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="employeeName"><i class="fas fa-user"></i> Full Name</label>
+                        <input type="text" id="employeeName" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="employeeEmail"><i class="fas fa-envelope"></i> Email Address</label>
+                        <input type="email" id="employeeEmail" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="basicPay"><i class="fas fa-money-bill-wave"></i> Basic Pay ($)</label>
+                        <input type="number" id="basicPay" step="0.01" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="employeeType"><i class="fas fa-user-tag"></i> Employee Type</label>
+                        <select id="employeeType" onchange="toggleEmployeeFields()">
+                            <option value="fullTime">Full-Time</option>
+                            <option value="partTime">Part-Time</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group" id="bonusField">
+                        <label for="bonus"><i class="fas fa-gift"></i> Bonus ($)</label>
+                        <input type="number" id="bonus" step="0.01" value="0">
+                    </div>
+                    
+                    <div class="form-group hidden" id="hoursField">
+                        <label for="hoursWorked"><i class="fas fa-clock"></i> Hours Worked</label>
+                        <input type="number" id="hoursWorked" value="0">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="paymentMethod"><i class="fas fa-money-check"></i> Payment Method</label>
+                        <select id="paymentMethod">
+                            <option value="cash">Cash</option>
+                            <option value="bank">Bank Transfer</option>
+                            <option value="both">Both</option>
+                        </select>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-block"><i class="fas fa-plus-circle"></i> Add Employee</button>
+                </form>
+            </div>
+        </div>
+        
+        <!-- View Employees Tab -->
+        <div class="tab-content" id="viewEmployees">
+            <div class="card">
+                <h2><i class="fas fa-users"></i> Employee List</h2>
+                <div class="employee-list" id="employeeList">
+                    <!-- Employee items will be added here dynamically -->
+                </div>
+            </div>
+        </div>
+        
+        <!-- Employee Profile Tab -->
+        <div class="tab-content" id="employeeProfile">
+            <div class="card">
+                <h2><i class="fas fa-id-card"></i> Employee Profile & Payment History</h2>
+                <div class="form-group">
+                    <label for="profileEmployeeId"><i class="fas fa-search"></i> Select Employee ID</label>
+                    <input type="number" id="profileEmployeeId" placeholder="Enter Employee ID">
+                </div>
+                <button class="btn btn-block" onclick="viewEmployeeProfile()"><i class="fas fa-user-circle"></i> View Profile</button>
+                
+                <div id="profileResult" class="hidden" style="margin-top: 20px;">
+                    <div class="employee-profile">
+                        <div class="profile-section">
+                            <div class="profile-header"><i class="fas fa-info-circle"></i> Employee Information</div>
+                            <div class="profile-item">
+                                <span>Name:</span>
+                                <strong id="profileName">-</strong>
+                            </div>
+                            <div class="profile-item">
+                                <span>Email:</span>
+                                <strong id="profileEmail">-</strong>
+                            </div>
+                            <div class="profile-item">
+                                <span>Employee Type:</span>
+                                <strong id="profileType">-</strong>
+                            </div>
+                            <div class="profile-item">
+                                <span>Payment Method:</span>
+                                <strong id="profilePaymentMethod">-</strong>
+                            </div>
+                        </div>
+                        
+                        <div class="profile-section">
+                            <div class="profile-header"><i class="fas fa-money-bill-wave"></i> Current Compensation</div>
+                            <div class="profile-item">
+                                <span>Basic Pay:</span>
+                                <strong id="profileBasicPay">-</strong>
+                            </div>
+                            <div class="profile-item">
+                                <span>Bonus/Hourly Rate:</span>
+                                <strong id="profileBonus">-</strong>
+                            </div>
+                            <div class="profile-item">
+                                <span>Overtime Hours:</span>
+                                <strong id="profileOvertimeHours">0</strong>
+                            </div>
+                            <div class="profile-item">
+                                <span>Overtime Pay:</span>
+                                <strong id="profileOvertimePay">$0.00</strong>
+                            </div>
+                        </div>
+                        
+                        <div class="profile-section">
+                            <div class="profile-header"><i class="fas fa-clock"></i> Add Overtime (This Month)</div>
+                            <div class="form-group" style="margin-bottom: 10px;">
+                                <label for="addOvertimeHours" style="margin-bottom: 5px;">Overtime Hours</label>
+                                <input type="number" id="addOvertimeHours" step="0.5" value="0" style="margin-bottom: 10px;">
+                                <button class="btn btn-secondary" style="width: 100%;" onclick="addOvertimeToEmployee()"><i class="fas fa-plus"></i> Add Overtime</button>
+                            </div>
+                        </div>
+                        
+                        <div class="profile-section">
+                            <div class="profile-header"><i class="fas fa-history"></i> Payment History</div>
+                            <div id="paymentHistoryContainer">
+                                <div class="payment-history" id="paymentHistory">
+                                    <p style="color: #64748b;">No payment records yet</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="profile-section">
+                            <div class="profile-header"><i class="fas fa-credit-card"></i> Record Payment</div>
+                            <div class="form-group" style="margin-bottom: 10px;">
+                                <label for="paymentMonth" style="margin-bottom: 5px;">Payment Month</label>
+                                <input type="month" id="paymentMonth" style="margin-bottom: 10px;">
+                            </div>
+                            <div class="form-group" style="margin-bottom: 10px;">
+                                <label for="recordPaymentMethod" style="margin-bottom: 5px;">Payment Method Used</label>
+                                <select id="recordPaymentMethod" onchange="toggleTransactionIdField()" style="margin-bottom: 10px;">
+                                    <option value="cash">Cash</option>
+                                    <option value="bank">Bank Transfer</option>
+                                </select>
+                            </div>
+                            <div class="form-group hidden" id="transactionIdField" style="margin-bottom: 10px;">
+                                <label for="transactionId" style="margin-bottom: 5px;">Transaction ID</label>
+                                <input type="text" id="transactionId" placeholder="e.g., TXN123456789" style="margin-bottom: 10px;">
+                            </div>
+                            <button class="btn btn-success" style="width: 100%;" onclick="recordPayment()"><i class="fas fa-check-circle"></i> Record Payment</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Calculate Salary Tab -->
+        <div class="tab-content" id="calculateSalary">
+            <div class="card">
+                <h2><i class="fas fa-calculator"></i> Calculate Employee Salary</h2>
+                <div class="form-group">
+                    <label for="salaryEmployeeId">Employee ID</label>
+                    <input type="number" id="salaryEmployeeId">
+                </div>
+                <button class="btn btn-block" onclick="calculateEmployeeSalary()"><i class="fas fa-calculator"></i> Calculate Salary</button>
+                
+                <div id="salaryResult" class="hidden">
+                    <div class="payslip-preview">
+                        <h3>Salary Calculation Result</h3>
+                        <div id="salaryDetails"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Generate Payslip Tab -->
+        <div class="tab-content" id="generatePayslip">
+            <div class="card">
+                <h2><i class="fas fa-file-invoice-dollar"></i> Generate Employee Payslip</h2>
+                <div class="form-group">
+                    <label for="payslipEmployeeId">Employee ID</label>
+                    <input type="number" id="payslipEmployeeId">
+                </div>
+                <button class="btn btn-block" onclick="generateEmployeePayslip()"><i class="fas fa-file-invoice"></i> Generate Payslip</button>
+                
+                <div id="payslipResult" class="hidden">
+                    <div class="payslip-preview">
+                        <div class="payslip-header">
+                            <h2>PAYSLIP</h2>
+                        </div>
+                        <div class="payslip-details" id="payslipDetails"></div>
+                    </div>
+                    <button class="btn btn-success" style="margin-top: 20px; width: 100%;" onclick="downloadPayslip()"><i class="fas fa-download"></i> Download as Text File</button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Bank Transfer Tab -->
+        <div class="tab-content" id="bankTransfer">
+            <div class="card">
+                <h2><i class="fas fa-university"></i> Bank Payroll Transfer</h2>
+                <div class="form-group">
+                    <label for="bankMonth">Select Month for Transfer</label>
+                    <input type="month" id="bankMonth">
+                </div>
+                <button class="btn btn-block" onclick="generateBankTransferReport()"><i class="fas fa-file-export"></i> Generate Transfer Report</button>
+                
+                <div id="bankTransferResult" class="hidden">
+                    <div class="payslip-preview" style="margin-top: 20px;">
+                        <div class="payslip-header">
+                            <h2>BANK TRANSFER REPORT</h2>
+                        </div>
+                        <div id="bankTransferContent"></div>
+                        <button class="btn btn-success" style="margin-top: 20px; width: 100%;" onclick="downloadBankTransfer()"><i class="fas fa-download"></i> Download Transfer File</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Reports Tab -->
+        <div class="tab-content" id="reports">
+            <div class="card">
+                <h2><i class="fas fa-chart-bar"></i> Payroll Reports</h2>
+                
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-bottom: 30px;">
+                    <button class="btn btn-secondary" onclick="generatePayrollSummary()"><i class="fas fa-chart-pie"></i> Summary Report</button>
+                    <button class="btn btn-secondary" onclick="generateEmployeeReport()"><i class="fas fa-users"></i> Employee Report</button>
+                    <button class="btn btn-secondary" onclick="generateSalaryReport()"><i class="fas fa-money-bill-wave"></i> Salary Report</button>
+                </div>
+                
+                <div id="reportResult" class="hidden">
+                    <div class="payslip-preview">
+                        <h3 id="reportTitle">Report</h3>
+                        <div id="reportContent"></div>
+                        <button class="btn btn-success" style="margin-top: 20px; width: 100%;" onclick="downloadReport()"><i class="fas fa-download"></i> Download Report</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Sample data with enhanced structure
+        let employees = [
+            { 
+                id: 1, 
+                name: "John Doe", 
+                email: "john@company.com", 
+                type: "FullTime", 
+                basicPay: 5000, 
+                bonus: 500,
+                paymentMethod: "bank",
+                overtimeHours: 0,
+                paymentHistory: []
+            },
+            { 
+                id: 2, 
+                name: "Jane Smith", 
+                email: "jane@company.com", 
+                type: "PartTime", 
+                basicPay: 25, 
+                hoursWorked: 80,
+                paymentMethod: "cash",
+                overtimeHours: 0,
+                paymentHistory: []
+            },
+            { 
+                id: 3, 
+                name: "Robert Johnson", 
+                email: "robert@company.com", 
+                type: "FullTime", 
+                basicPay: 6000, 
+                bonus: 600,
+                paymentMethod: "both",
+                overtimeHours: 0,
+                paymentHistory: []
+            }
+        ];
+        
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            updateEmployeeStats();
+            displayEmployees();
+        });
+        
+        // Show tab
+        function showTab(tabId, el) {
+            document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+
+            // mark the clicked tab active
+            if (el && el.classList) {
+                el.classList.add('active');
+            } else {
+                const tabEl = document.querySelector(`.tab[data-tab="${tabId}"]`);
+                if (tabEl) tabEl.classList.add('active');
+            }
+
+            const content = document.getElementById(tabId);
+            if (content) content.classList.add('active');
+        }
+        
+        // Toggle employee fields
+        function toggleEmployeeFields() {
+            const employeeType = document.getElementById('employeeType').value;
+            const bonusField = document.getElementById('bonusField');
+            const hoursField = document.getElementById('hoursField');
+            
+            if (employeeType === 'fullTime') {
+                bonusField.classList.remove('hidden');
+                hoursField.classList.add('hidden');
+            } else {
+                bonusField.classList.add('hidden');
+                hoursField.classList.remove('hidden');
+            }
+        }
+        
+        // Handle form submission
+        document.getElementById('employeeForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const id = parseInt(document.getElementById('employeeId').value);
+            const name = document.getElementById('employeeName').value;
+            const email = document.getElementById('employeeEmail').value;
+            const basicPay = parseFloat(document.getElementById('basicPay').value);
+            const type = document.getElementById('employeeType').value;
+            const paymentMethod = document.getElementById('paymentMethod').value;
+            
+            if (employees.some(emp => emp.id === id)) {
+                showAlert('Employee ID already exists!', 'error');
+                return;
+            }
+            
+            let newEmployee;
+            
+            if (type === 'fullTime') {
+                const bonus = parseFloat(document.getElementById('bonus').value);
+                newEmployee = {
+                    id: id,
+                    name: name,
+                    email: email,
+                    type: 'FullTime',
+                    basicPay: basicPay,
+                    bonus: bonus,
+                    paymentMethod: paymentMethod,
+                    overtimeHours: 0,
+                    paymentHistory: []
+                };
+            } else {
+                const hoursWorked = parseInt(document.getElementById('hoursWorked').value);
+                newEmployee = {
+                    id: id,
+                    name: name,
+                    email: email,
+                    type: 'PartTime',
+                    basicPay: basicPay,
+                    hoursWorked: hoursWorked,
+                    paymentMethod: paymentMethod,
+                    overtimeHours: 0,
+                    paymentHistory: []
+                };
+            }
+            
+            employees.push(newEmployee);
+            updateEmployeeStats();
+            displayEmployees();
+            showAlert('Employee added successfully!', 'success');
+            document.getElementById('employeeForm').reset();
+        });
+        
+        // Display employees
+        function displayEmployees() {
+            const employeeList = document.getElementById('employeeList');
+            employeeList.innerHTML = '';
+            
+            if (employees.length === 0) {
+                employeeList.innerHTML = '<p>No employees found.</p>';
+                return;
+            }
+            
+            employees.forEach(employee => {
+                const employeeItem = document.createElement('div');
+                employeeItem.className = 'employee-item';
+                
+                let details = '';
+                if (employee.type === 'FullTime') {
+                    details = `Full-Time | Basic: $${employee.basicPay} | Bonus: $${employee.bonus}`;
+                } else {
+                    details = `Part-Time | Rate: $${employee.basicPay}/hr | Hours: ${employee.hoursWorked}`;
+                }
+                
+                employeeItem.innerHTML = `
+                    <div class="employee-info">
+                        <h3>${employee.name}</h3>
+                        <div class="employee-details">
+                            ID: ${employee.id} | ${employee.email}<br>
+                            ${details}
+                        </div>
+                    </div>
+                    <div class="employee-actions">
+                        <button class="btn btn-danger" onclick="removeEmployee(${employee.id})"><i class="fas fa-trash"></i> Remove</button>
+                    </div>
+                `;
+                
+                employeeList.appendChild(employeeItem);
+            });
+        }
+        
+        // Remove employee
+        function removeEmployee(id) {
+            if (confirm('Are you sure you want to remove this employee?')) {
+                employees = employees.filter(emp => emp.id !== id);
+                updateEmployeeStats();
+                displayEmployees();
+                showAlert('Employee removed successfully!', 'success');
+            }
+        }
+        
+        // Calculate salary
+        function calculateEmployeeSalary() {
+            const employeeId = parseInt(document.getElementById('salaryEmployeeId').value);
+            const employee = employees.find(emp => emp.id === employeeId);
+            
+            if (!employee) {
+                showAlert('Employee not found!', 'error');
+                return;
+            }
+            
+            let salary = 0;
+            let details = '';
+            
+            if (employee.type === 'FullTime') {
+                salary = employee.basicPay + employee.bonus;
+                details = `
+                    <div class="payslip-row">
+                        <span>Basic Pay:</span>
+                        <span>$${employee.basicPay.toFixed(2)}</span>
+                    </div>
+                    <div class="payslip-row">
+                        <span>Bonus:</span>
+                        <span>$${employee.bonus.toFixed(2)}</span>
+                    </div>
+                `;
+            } else {
+                salary = employee.basicPay * employee.hoursWorked;
+                details = `
+                    <div class="payslip-row">
+                        <span>Hourly Rate:</span>
+                        <span>$${employee.basicPay.toFixed(2)}</span>
+                    </div>
+                    <div class="payslip-row">
+                        <span>Hours Worked:</span>
+                        <span>${employee.hoursWorked}</span>
+                    </div>
+                `;
+            }
+            
+            details += `
+                <div class="payslip-row payslip-total">
+                    <span>Total Salary:</span>
+                    <span>$${salary.toFixed(2)}</span>
+                </div>
+            `;
+            
+            document.getElementById('salaryDetails').innerHTML = details;
+            document.getElementById('salaryResult').classList.remove('hidden');
+        }
+        
+        // Generate payslip
+        function generateEmployeePayslip() {
+            const employeeId = parseInt(document.getElementById('payslipEmployeeId').value);
+            const employee = employees.find(emp => emp.id === employeeId);
+            
+            if (!employee) {
+                showAlert('Employee not found!', 'error');
+                return;
+            }
+            
+            let salary = 0;
+            let details = '';
+            
+            details += `
+                <div class="payslip-row">
+                    <span>Employee ID:</span>
+                    <span>${employee.id}</span>
+                </div>
+                <div class="payslip-row">
+                    <span>Name:</span>
+                    <span>${employee.name}</span>
+                </div>
+                <div class="payslip-row">
+                    <span>Email:</span>
+                    <span>${employee.email}</span>
+                </div>
+                <div class="payslip-row">
+                    <span>Employee Type:</span>
+                    <span>${employee.type}</span>
+                </div>
+                <div class="payslip-row">
+                    <span>Payment Method:</span>
+                    <span>${employee.paymentMethod === 'cash' ? 'Cash' : employee.paymentMethod === 'bank' ? 'Bank Transfer' : 'Cash & Bank Transfer'}</span>
+                </div>
+            `;
+            
+            if (employee.type === 'FullTime') {
+                salary = employee.basicPay + employee.bonus;
+                details += `
+                    <div class="payslip-row">
+                        <span>Basic Pay:</span>
+                        <span>$${employee.basicPay.toFixed(2)}</span>
+                    </div>
+                    <div class="payslip-row">
+                        <span>Bonus:</span>
+                        <span>$${employee.bonus.toFixed(2)}</span>
+                    </div>
+                `;
+            } else {
+                salary = employee.basicPay * employee.hoursWorked;
+                details += `
+                    <div class="payslip-row">
+                        <span>Hourly Rate:</span>
+                        <span>$${employee.basicPay.toFixed(2)}</span>
+                    </div>
+                    <div class="payslip-row">
+                        <span>Hours Worked:</span>
+                        <span>${employee.hoursWorked}</span>
+                    </div>
+                `;
+            }
+            
+            // Add overtime if present
+            if (employee.overtimeHours > 0) {
+                const hourlyRate = employee.type === 'FullTime' ? employee.basicPay / 160 : employee.basicPay;
+                const overtimePay = employee.overtimeHours * hourlyRate * 1.5;
+                details += `
+                    <div class="payslip-row">
+                        <span>Overtime Hours:</span>
+                        <span>${employee.overtimeHours} @ 1.5x</span>
+                    </div>
+                    <div class="payslip-row">
+                        <span>Overtime Pay:</span>
+                        <span>$${overtimePay.toFixed(2)}</span>
+                    </div>
+                `;
+                salary += overtimePay;
+            }
+            
+            const today = new Date().toLocaleDateString();
+            
+            details += `
+                <div class="payslip-row payslip-total">
+                    <span>Total Salary:</span>
+                    <span>$${salary.toFixed(2)}</span>
+                </div>
+                <div class="payslip-row">
+                    <span>Date:</span>
+                    <span>${today}</span>
+                </div>
+            `;
+            
+            // Add payment history section
+            if (employee.paymentHistory && employee.paymentHistory.length > 0) {
+                details += `<div style="border-top: 2px solid #2563eb; margin-top: 15px; padding-top: 15px;"><strong>Payment History:</strong></div>`;
+                employee.paymentHistory.forEach(payment => {
+                    const methodIcon = payment.method === 'cash' ? '💵' : '🏦';
+                    let paymentDetail = `
+                        <div class="payslip-row">
+                            <span>${methodIcon} ${payment.month}:</span>
+                            <span>$${payment.amount.toFixed(2)}</span>
+                        </div>
+                    `;
+                    if (payment.method === 'bank' && payment.transactionId) {
+                        paymentDetail += `
+                            <div class="payslip-row" style="padding-left: 20px; color: #64748b;">
+                                <span style="font-size: 0.9rem;">Txn ID: ${payment.transactionId}</span>
+                            </div>
+                        `;
+                    }
+                    details += paymentDetail;
+                });
+            }
+            
+            document.getElementById('payslipDetails').innerHTML = details;
+            document.getElementById('payslipResult').classList.remove('hidden');
+            showAlert('Payslip generated successfully!', 'success');
+        }
+        
+        // Download payslip
+        function downloadPayslip() {
+            const employeeId = parseInt(document.getElementById('payslipEmployeeId').value);
+            const employee = employees.find(emp => emp.id === employeeId);
+            
+            if (!employee) {
+                showAlert('Employee not found!', 'error');
+                return;
+            }
+            
+            let salary = 0;
+            let payslipContent = '========================================\n';
+            payslipContent += '             EMPLOYEE PAYSLIP\n';
+            payslipContent += '========================================\n\n';
+            
+            payslipContent += `Employee ID: ${employee.id}\n`;
+            payslipContent += `Name: ${employee.name}\n`;
+            payslipContent += `Email: ${employee.email}\n`;
+            payslipContent += `Employee Type: ${employee.type}\n\n`;
+            
+            payslipContent += '----------------------------------------\n';
+            payslipContent += 'SALARY DETAILS:\n';
+            payslipContent += '----------------------------------------\n';
+            
+            if (employee.type === 'FullTime') {
+                salary = employee.basicPay + employee.bonus;
+                payslipContent += `Basic Pay: $${employee.basicPay.toFixed(2)}\n`;
+                payslipContent += `Bonus: $${employee.bonus.toFixed(2)}\n`;
+            } else {
+                salary = employee.basicPay * employee.hoursWorked;
+                payslipContent += `Hourly Rate: $${employee.basicPay.toFixed(2)}\n`;
+                payslipContent += `Hours Worked: ${employee.hoursWorked}\n`;
+            }
+            
+            const today = new Date().toLocaleDateString();
+            
+            payslipContent += '\n----------------------------------------\n';
+            payslipContent += `Total Salary: $${salary.toFixed(2)}\n`;
+            payslipContent += `Date: ${today}\n`;
+            payslipContent += '========================================\n';
+            
+            const blob = new Blob([payslipContent], { type: 'text/plain' });
+            const url = window.URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = `Payslip_${employee.id}_${employee.name.replace(/\s+/g, '_')}.txt`;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            window.URL.revokeObjectURL(url);
+            
+            showAlert('Payslip downloaded successfully!', 'success');
+        }
+        
+        // Update stats
+        function updateEmployeeStats() {
+            const totalEmployees = employees.length;
+            const fullTimeEmployees = employees.filter(emp => emp.type === 'FullTime').length;
+            const partTimeEmployees = employees.filter(emp => emp.type === 'PartTime').length;
+            
+            document.getElementById('totalEmployees').textContent = totalEmployees;
+            document.getElementById('fullTimeEmployees').textContent = fullTimeEmployees;
+            document.getElementById('partTimeEmployees').textContent = partTimeEmployees;
+        }
+        
+        // Show alert
+        function showAlert(message, type) {
+            const alertContainer = document.getElementById('alertContainer');
+            const alert = document.createElement('div');
+            alert.className = `alert alert-${type}`;
+            
+            const icon = type === 'success' ? 'fas fa-check-circle' : 'fas fa-exclamation-triangle';
+            alert.innerHTML = `<i class="${icon}"></i> ${message}`;
+            
+            alertContainer.appendChild(alert);
+            
+            setTimeout(() => {
+                alert.remove();
+            }, 5000);
+        }
+        
+        // Reports functionality
+        let currentReport = {};
+        
+        function generatePayrollSummary() {
+            let reportContent = '<div class="payslip-row"><strong>PAYROLL SUMMARY REPORT</strong></div>';
+            const today = new Date();
+            reportContent += `<div class="payslip-row"><span>Generated:</span><span>${today.toLocaleDateString()}</span></div>`;
+            reportContent += `<div class="payslip-row"><span>Total Employees:</span><span>${employees.length}</span></div>`;
+            
+            let totalPayroll = 0;
+            let fullTimeCount = 0;
+            let partTimeCount = 0;
+            let totalBonus = 0;
+            
+            employees.forEach(emp => {
+                let salary = 0;
+                if (emp.type === 'FullTime') {
+                    salary = emp.basicPay + (emp.bonus || 0);
+                    totalBonus += emp.bonus || 0;
+                    fullTimeCount++;
+                } else {
+                    salary = emp.basicPay * (emp.hoursWorked || 0);
+                    partTimeCount++;
+                }
+                totalPayroll += salary;
+            });
+            
+            reportContent += `<div class="payslip-row"><span>Full-Time:</span><span>${fullTimeCount}</span></div>`;
+            reportContent += `<div class="payslip-row"><span>Part-Time:</span><span>${partTimeCount}</span></div>`;
+            reportContent += `<div class="payslip-row"><span>Total Bonuses:</span><span>$${totalBonus.toFixed(2)}</span></div>`;
+            reportContent += `<div class="payslip-row payslip-total"><span>Total Payroll:</span><span>$${totalPayroll.toFixed(2)}</span></div>`;
+            
+            currentReport = { type: 'Payroll Summary', data: reportContent };
+            document.getElementById('reportTitle').textContent = 'Payroll Summary Report';
+            document.getElementById('reportContent').innerHTML = reportContent;
+            document.getElementById('reportResult').classList.remove('hidden');
+            showAlert('Payroll summary generated!', 'success');
+        }
+        
+        function generateEmployeeReport() {
+            let reportContent = '<div class="payslip-row"><strong>EMPLOYEE DETAILS REPORT</strong></div>';
+            const today = new Date();
+            reportContent += `<div class="payslip-row"><span>Generated:</span><span>${today.toLocaleDateString()}</span></div>`;
+            reportContent += `<div class="payslip-row"><span>Total Employees:</span><span>${employees.length}</span></div><br>`;
+            
+            employees.forEach(emp => {
+                reportContent += `<div class="payslip-row"><strong>${emp.name}</strong></div>`;
+                reportContent += `<div class="payslip-row"><span>ID:</span><span>${emp.id}</span></div>`;
+                reportContent += `<div class="payslip-row"><span>Email:</span><span>${emp.email}</span></div>`;
+                reportContent += `<div class="payslip-row"><span>Type:</span><span>${emp.type}</span></div>`;
+                
+                if (emp.type === 'FullTime') {
+                    reportContent += `<div class="payslip-row"><span>Basic Pay:</span><span>$${emp.basicPay.toFixed(2)}</span></div>`;
+                    reportContent += `<div class="payslip-row"><span>Bonus:</span><span>$${(emp.bonus || 0).toFixed(2)}</span></div>`;
+                } else {
+                    reportContent += `<div class="payslip-row"><span>Hourly Rate:</span><span>$${emp.basicPay.toFixed(2)}</span></div>`;
+                    reportContent += `<div class="payslip-row"><span>Hours Worked:</span><span>${emp.hoursWorked || 0}</span></div>`;
+                }
+                reportContent += '<br>';
+            });
+            
+            currentReport = { type: 'Employee Details', data: reportContent };
+            document.getElementById('reportTitle').textContent = 'Employee Details Report';
+            document.getElementById('reportContent').innerHTML = reportContent;
+            document.getElementById('reportResult').classList.remove('hidden');
+            showAlert('Employee report generated!', 'success');
+        }
+        
+        function generateSalaryReport() {
+            let reportContent = '<div class="payslip-row"><strong>SALARY BREAKDOWN REPORT</strong></div>';
+            const today = new Date();
+            reportContent += `<div class="payslip-row"><span>Generated:</span><span>${today.toLocaleDateString()}</span></div><br>`;
+            
+            let totalBasicPay = 0;
+            let totalBonus = 0;
+            let totalHourly = 0;
+            
+            employees.forEach(emp => {
+                let salary = 0;
+                if (emp.type === 'FullTime') {
+                    totalBasicPay += emp.basicPay;
+                    totalBonus += emp.bonus || 0;
+                    salary = emp.basicPay + (emp.bonus || 0);
+                    reportContent += `<div class="payslip-row"><span>${emp.name} (FT):</span><span>$${salary.toFixed(2)}</span></div>`;
+                } else {
+                    salary = emp.basicPay * (emp.hoursWorked || 0);
+                    totalHourly += salary;
+                    reportContent += `<div class="payslip-row"><span>${emp.name} (PT):</span><span>$${salary.toFixed(2)}</span></div>`;
+                }
+            });
+            
+            reportContent += '<br>';
+            reportContent += `<div class="payslip-row"><span>Total Basic Pay:</span><span>$${totalBasicPay.toFixed(2)}</span></div>`;
+            reportContent += `<div class="payslip-row"><span>Total Bonus:</span><span>$${totalBonus.toFixed(2)}</span></div>`;
+            reportContent += `<div class="payslip-row"><span>Total Hourly Pay:</span><span>$${totalHourly.toFixed(2)}</span></div>`;
+            
+            const totalPayroll = totalBasicPay + totalBonus + totalHourly;
+            reportContent += `<div class="payslip-row payslip-total"><span>Total Payroll:</span><span>$${totalPayroll.toFixed(2)}</span></div>`;
+            
+            currentReport = { type: 'Salary Breakdown', data: reportContent };
+            document.getElementById('reportTitle').textContent = 'Salary Breakdown Report';
+            document.getElementById('reportContent').innerHTML = reportContent;
+            document.getElementById('reportResult').classList.remove('hidden');
+            showAlert('Salary breakdown report generated!', 'success');
+        }
+        
+        function downloadReport() {
+            let reportContent = currentReport.type + '\n';
+            reportContent += '========================================\n';
+            reportContent += new Date().toLocaleDateString() + '\n';
+            reportContent += '========================================\n\n';
+            reportContent += document.getElementById('reportContent').innerText;
+            
+            const blob = new Blob([reportContent], { type: 'text/plain' });
+            const url = window.URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = `${currentReport.type.replace(/ /g, '_')}_${Date.now()}.txt`;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            window.URL.revokeObjectURL(url);
+            
+            showAlert('Report downloaded!', 'success');
+        }
+        
+        // Bank Transfer Feature
+        function generateBankTransferReport() {
+            const monthInput = document.getElementById('bankMonth').value;
+
+            if (!monthInput) {
+                showAlert('Please select a month!', 'error');
+                return;
+            }
+
+            let totalAmount = 0;
+            let transferDetails = '';
+            const processDate = new Date().toLocaleDateString();
+
+            // Header
+            transferDetails += `
+                <div class="payslip-row">
+                    <span>Month:</span>
+                    <span>${monthInput}</span>
+                </div>
+                <div class="payslip-row">
+                    <span>Process Date:</span>
+                    <span>${processDate}</span>
+                </div>
+            `;
+
+            transferDetails += '<br><div style="border-top: 2px solid #2563eb; padding-top: 15px; margin-top: 15px;"><strong>BANK TRANSFERS (Recorded)</strong></div><br>';
+
+            // Filter employees who have recorded bank payments for the selected month
+            const employeesWithBankPayments = employees.map(emp => {
+                const bankPayments = (emp.paymentHistory || []).filter(p => p.method === 'bank' && p.transactionId && p.month === monthInput);
+                return { emp, bankPayments };
+            }).filter(x => x.bankPayments.length > 0);
+
+            if (employeesWithBankPayments.length === 0) {
+                document.getElementById('bankTransferContent').innerHTML = '<p style="color: #64748b;">No recorded bank transfers found for the selected month.</p>';
+                document.getElementById('bankTransferResult').classList.remove('hidden');
+                showAlert('No recorded bank transfers found for the selected month.', 'error');
+                return;
+            }
+
+            employeesWithBankPayments.forEach(record => {
+                const emp = record.emp;
+                record.bankPayments.forEach(pmt => {
+                    totalAmount += pmt.amount;
+                    transferDetails += `
+                        <div class="payslip-row">
+                            <span>${emp.id} - ${emp.name} (${pmt.transactionId})</span>
+                            <span>$${pmt.amount.toFixed(2)}</span>
+                        </div>
+                    `;
+                });
+            });
+
+            transferDetails += '<br>';
+            transferDetails += `
+                <div class="payslip-row payslip-total">
+                    <span>Total Transfer Amount:</span>
+                    <span>$${totalAmount.toFixed(2)}</span>
+                </div>
+                <div class="payslip-row">
+                    <span>Recorded Transfers:</span>
+                    <span style="color: #10b981; font-weight: 600;">${employeesWithBankPayments.length} employees</span>
+                </div>
+            `;
+
+            document.getElementById('bankTransferContent').innerHTML = transferDetails;
+            document.getElementById('bankTransferResult').classList.remove('hidden');
+
+            showAlert(`Bank transfer report generated for ${employeesWithBankPayments.length} employees. Total: $${totalAmount.toFixed(2)}`, 'success');
+        }
+        
+        function downloadBankTransfer() {
+            const monthInput = document.getElementById('bankMonth').value;
+            const processDate = new Date().toLocaleDateString();
+
+            if (!monthInput) {
+                showAlert('Please select a month!', 'error');
+                return;
+            }
+
+            // Gather only recorded bank payments for the selected month
+            const records = [];
+            employees.forEach(emp => {
+                const bankPayments = (emp.paymentHistory || []).filter(p => p.method === 'bank' && p.transactionId && p.month === monthInput);
+                bankPayments.forEach(pmt => {
+                    records.push({ emp, pmt });
+                });
+            });
+
+            if (records.length === 0) {
+                showAlert('No recorded bank transfers found for the selected month. Nothing to download.', 'error');
+                return;
+            }
+
+            let transferContent = '========================================\n';
+            transferContent += '     BANK PAYROLL TRANSFER FILE\n';
+            transferContent += '========================================\n\n';
+
+            transferContent += `Month: ${monthInput}\n`;
+            transferContent += `Process Date: ${processDate}\n`;
+            transferContent += `Recorded Transfers: ${records.length}\n\n`;
+
+            transferContent += '----------------------------------------\n';
+            transferContent += 'EMPLOYEE TRANSFER DETAILS\n';
+            transferContent += '----------------------------------------\n\n';
+
+            let totalAmount = 0;
+
+            records.forEach(r => {
+                const emp = r.emp;
+                const pmt = r.pmt;
+                totalAmount += pmt.amount;
+
+                transferContent += `Employee ID: ${emp.id}\n`;
+                transferContent += `Name: ${emp.name}\n`;
+                transferContent += `Email: ${emp.email}\n`;
+                transferContent += `Type: ${emp.type}\n`;
+                transferContent += `Amount: $${pmt.amount.toFixed(2)}\n`;
+                transferContent += `Transaction ID: ${pmt.transactionId}\n`;
+                transferContent += `Recorded Date: ${pmt.date}\n`;
+                transferContent += '---\n';
+            });
+
+            transferContent += '\n========================================\n';
+            transferContent += 'TRANSFER SUMMARY\n';
+            transferContent += '========================================\n';
+            transferContent += `Total Recorded Transfers: ${records.length}\n`;
+            transferContent += `Total Transfer Amount: $${totalAmount.toFixed(2)}\n`;
+            transferContent += `Processing Date: ${processDate}\n`;
+            transferContent += `Status: READY FOR BANK PROCESSING\n`;
+            transferContent += '========================================\n';
+
+            const blob = new Blob([transferContent], { type: 'text/plain' });
+            const url = window.URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = `BankTransfer_${monthInput}_${Date.now()}.txt`;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            window.URL.revokeObjectURL(url);
+
+            showAlert('Bank transfer file downloaded successfully!', 'success');
+        }
+        
+        // Employee Profile Functions
+        function viewEmployeeProfile() {
+            const employeeId = parseInt(document.getElementById('profileEmployeeId').value);
+            const employee = employees.find(emp => emp.id === employeeId);
+            
+            if (!employee) {
+                showAlert('Employee not found!', 'error');
+                return;
+            }
+            
+            // Display employee information
+            document.getElementById('profileName').textContent = employee.name;
+            document.getElementById('profileEmail').textContent = employee.email;
+            document.getElementById('profileType').textContent = employee.type;
+            
+            // Display payment method with proper label
+            const paymentMethodLabel = {
+                'cash': 'Cash',
+                'bank': 'Bank Transfer',
+                'both': 'Cash & Bank Transfer'
+            };
+            document.getElementById('profilePaymentMethod').textContent = paymentMethodLabel[employee.paymentMethod] || employee.paymentMethod;
+            
+            if (employee.type === 'FullTime') {
+                document.getElementById('profileBasicPay').textContent = `$${employee.basicPay.toFixed(2)}`;
+                document.getElementById('profileBonus').textContent = `$${(employee.bonus || 0).toFixed(2)}`;
+            } else {
+                document.getElementById('profileBasicPay').textContent = `$${employee.basicPay.toFixed(2)}/hour`;
+                document.getElementById('profileBonus').textContent = `${employee.hoursWorked || 0} hours this month`;
+            }
+            
+            document.getElementById('profileOvertimeHours').textContent = `${employee.overtimeHours || 0} hours`;
+            
+            // Calculate overtime pay
+            let hourlyRate;
+            if (employee.type === 'FullTime') {
+                hourlyRate = employee.basicPay / 160; // 160 hours/month standard
+            } else {
+                hourlyRate = employee.basicPay;
+            }
+            const overtimePay = (employee.overtimeHours || 0) * hourlyRate * 1.5;
+            document.getElementById('profileOvertimePay').textContent = `$${overtimePay.toFixed(2)}`;
+            
+            // Display payment history
+            displayPaymentHistory(employee);
+            
+            document.getElementById('profileResult').classList.remove('hidden');
+            showAlert('Profile loaded successfully!', 'success');
+        }
+        
+        function displayPaymentHistory(employee) {
+            const paymentHistoryDiv = document.getElementById('paymentHistory');
+            
+            if (!employee.paymentHistory || employee.paymentHistory.length === 0) {
+                paymentHistoryDiv.innerHTML = '<p style="color: #64748b;">No payment records yet</p>';
+                return;
+            }
+            
+            let historyHTML = '';
+            employee.paymentHistory.forEach(payment => {
+                const methodIcon = payment.method === 'cash' ? '💵' : '🏦';
+                const methodLabel = payment.method === 'cash' ? 'Cash' : 'Bank Transfer';
+                
+                let recordHTML = `
+                    <div class="payment-record">
+                        <strong>${payment.month}</strong>
+                        <small>${methodIcon} ${methodLabel}</small><br>
+                        <small>Amount: $${payment.amount.toFixed(2)}</small><br>
+                `;
+                
+                // Show transaction ID if it's a bank transfer
+                if (payment.method === 'bank' && payment.transactionId) {
+                    recordHTML += `<small>📌 Txn ID: ${payment.transactionId}</small><br>`;
+                }
+                
+                if (payment.overtimeIncluded > 0) {
+                    recordHTML += `<small>⏱️ OT Hours: ${payment.overtimeIncluded}</small><br>`;
+                }
+                
+                recordHTML += `<small>Date: ${payment.date}</small>
+                    </div>
+                `;
+                historyHTML += recordHTML;
+            });
+            paymentHistoryDiv.innerHTML = historyHTML;
+        }
+        
+        function addOvertimeToEmployee() {
+            const employeeId = parseInt(document.getElementById('profileEmployeeId').value);
+            const employee = employees.find(emp => emp.id === employeeId);
+            const overtimeHours = parseFloat(document.getElementById('addOvertimeHours').value);
+            
+            if (!employee) {
+                showAlert('Please view an employee profile first!', 'error');
+                return;
+            }
+            
+            if (overtimeHours < 0) {
+                showAlert('Overtime hours cannot be negative!', 'error');
+                return;
+            }
+            
+            employee.overtimeHours = (employee.overtimeHours || 0) + overtimeHours;
+            document.getElementById('addOvertimeHours').value = 0;
+            viewEmployeeProfile(); // Refresh profile
+            showAlert(`Added ${overtimeHours} overtime hours to ${employee.name}!`, 'success');
+        }
+        
+        function recordPayment() {
+            const employeeId = parseInt(document.getElementById('profileEmployeeId').value);
+            const employee = employees.find(emp => emp.id === employeeId);
+            const paymentMonth = document.getElementById('paymentMonth').value;
+            const paymentMethodUsed = document.getElementById('recordPaymentMethod').value;
+            let transactionId = '';
+            
+            if (!employee) {
+                showAlert('Please view an employee profile first!', 'error');
+                return;
+            }
+            
+            if (!paymentMonth) {
+                showAlert('Please select a payment month!', 'error');
+                return;
+            }
+            
+            // Check if transaction ID is required for bank transfer
+            if (paymentMethodUsed === 'bank') {
+                transactionId = document.getElementById('transactionId').value.trim();
+                if (!transactionId) {
+                    showAlert('Please enter a Transaction ID for bank transfer!', 'error');
+                    return;
+                }
+            }
+            
+            // Calculate salary for this payment
+            let salary = 0;
+            if (employee.type === 'FullTime') {
+                salary = employee.basicPay + (employee.bonus || 0);
+            } else {
+                salary = employee.basicPay * (employee.hoursWorked || 0);
+            }
+            
+            // Add overtime pay
+            const hourlyRate = employee.type === 'FullTime' ? employee.basicPay / 160 : employee.basicPay;
+            const overtimePay = (employee.overtimeHours || 0) * hourlyRate * 1.5;
+            salary += overtimePay;
+            
+            // Create payment record
+            const paymentRecord = {
+                month: paymentMonth,
+                method: paymentMethodUsed,
+                amount: salary,
+                date: new Date().toLocaleDateString(),
+                overtimeIncluded: employee.overtimeHours || 0,
+                transactionId: transactionId || null
+            };
+            
+            if (!employee.paymentHistory) {
+                employee.paymentHistory = [];
+            }
+            
+            employee.paymentHistory.push(paymentRecord);
+            
+            // Reset overtime after payment
+            employee.overtimeHours = 0;
+            
+            document.getElementById('paymentMonth').value = '';
+            document.getElementById('transactionId').value = '';
+            document.getElementById('recordPaymentMethod').value = 'cash';
+            document.getElementById('transactionIdField').classList.add('hidden');
+            
+            viewEmployeeProfile(); // Refresh profile
+            
+            let successMessage = `Payment recorded for ${employee.name} - $${salary.toFixed(2)} via ${paymentMethodUsed}`;
+            if (transactionId) {
+                successMessage += ` (Transaction ID: ${transactionId})`;
+            }
+            showAlert(successMessage, 'success');
+        }
+        
+        // Toggle Transaction ID field visibility
+        function toggleTransactionIdField() {
+            const paymentMethod = document.getElementById('recordPaymentMethod').value;
+            const transactionIdField = document.getElementById('transactionIdField');
+            
+            if (paymentMethod === 'bank') {
+                transactionIdField.classList.remove('hidden');
+            } else {
+                transactionIdField.classList.add('hidden');
+                document.getElementById('transactionId').value = '';
+            }
+        }
+    </script>
+</body>
+</html>
