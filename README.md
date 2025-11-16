@@ -14,6 +14,7 @@ and computes their salary using well-designed OOP classes in Java.
 
 The system allows the user to:
 
+
 ✔ Add Employees
 
 <i> You can register full-time or part-time employees with essential details like ID, name, email, basic pay, hours worked or bonus.</i>
